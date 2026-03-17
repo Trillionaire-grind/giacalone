@@ -1,6 +1,15 @@
+const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS'
+};
+
 exports.handler = async function (event) {
+    if (event.httpMethod === 'OPTIONS') {
+        return { statusCode: 204, headers, body: '' };
+    }
     if (event.httpMethod !== 'POST') {
-        return { statusCode: 405, body: 'Method Not Allowed' };
+        return { statusCode: 405, headers, body: 'Method Not Allowed' };
     }
 
     const { email } = JSON.parse(event.body || '{}');
